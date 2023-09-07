@@ -9,7 +9,7 @@ var checkedUsers= [];
 
 
 void main() {
-  select();
+  selectFromMale();
   runApp(MyApp());
 
 }
@@ -44,7 +44,3 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
     
 }
-
-
-
-
