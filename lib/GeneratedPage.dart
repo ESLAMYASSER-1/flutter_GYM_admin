@@ -42,10 +42,18 @@ class _GeneratedPageState extends State<GeneratedPage> {
   ];
   List<String> trainingPlaceOptions = ["In Gym", "In Home"];
   List<String> participationOptions = [
+    "15 Days",
     "1 Month",
     "2 Months",
     "3 Months",
+    "4 Months",
+    "5 Months",
     "6 Months",
+    "7 Months",
+    "8 Months",
+    "9 Months",
+    "10 Months",
+    "11 Months",
     "1 Year"
   ];
 

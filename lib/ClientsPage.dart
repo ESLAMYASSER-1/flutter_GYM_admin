@@ -1,9 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'MySQL.dart';
 import 'main.dart';
+
+TextEditingController _searchController = TextEditingController();
+
 
 class ClientsPage extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class ClientsPage extends StatefulWidget {
 }
 
 class _ClientsPageState extends State<ClientsPage> {
+
   @override
   Widget build(BuildContext context) {
     if (database.isEmpty) {
@@ -35,18 +38,18 @@ class _ClientsPageState extends State<ClientsPage> {
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.all(0),
+          padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
           child: Row(
             children: [
               Text(
                 'You have '
                 '${database.length} Clients:',
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 14),
               ),
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(3, 16, 3, 16),
+                  padding: const EdgeInsets.fromLTRB(2, 16, 0, 16),
                   child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -76,7 +79,7 @@ class _ClientsPageState extends State<ClientsPage> {
                       },
                       child: Container(child: Row(
                         children: [
-                          Icon(Icons.refresh,size: 17),
+                          Icon(Icons.refresh,size: 15),
                           Text("Male",style: TextStyle(fontSize: 13),),
                         ],
                       ))
@@ -86,7 +89,7 @@ class _ClientsPageState extends State<ClientsPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 16, 3, 16),
+                  padding: const EdgeInsets.fromLTRB(2, 16, 2, 16),
                   child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -116,7 +119,7 @@ class _ClientsPageState extends State<ClientsPage> {
                       },
                       child: Container(child: Row(
                         children: [
-                          Icon(Icons.refresh,size: 17),
+                          Icon(Icons.refresh,size: 15),
                           Text("FeMale",style: TextStyle(fontSize: 13),),
                         ],
                       ))
@@ -133,16 +136,42 @@ class _ClientsPageState extends State<ClientsPage> {
                       },
                       child: SvgPicture.asset(
                         "assets/WhatsApp.svg",
-                        width: 16,
-                        height: 16,
+                        width: 15,
+                        height: 15,
                       )),
                 ),
               ),
             ],
           ),
         ),
-        ElevatedButton(onPressed: (){setState(() {
+        Padding(
+          padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+          child: Row(
+            children: [
+              Text("Search"),
+              SizedBox(width: 20,),
+              Container(
+                width: 180,
+                height: 35,
+                child: TextField(
+                  decoration: InputDecoration(
 
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: _searchController,
+                  onChanged: (value){
+
+                    search(_searchController.text);
+                    setState(() {
+
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        ElevatedButton(onPressed: (){setState(() {
         });}, child: Text("ok")),
         for (var record in database)
           Row(
@@ -161,13 +190,13 @@ class _ClientsPageState extends State<ClientsPage> {
                 },
               ),
               Container(
-                width: 150,
+                width: 140,
                 height: 30,
                 child: Text(
                   // ("${record[0].length > 12 ? "${record[0].toString().substring(0, 12)}..." : "${record[0]}${" " * (19 - (record[0].length)).toInt()}"}"),
                   "${record[0]}",
                   style: TextStyle(
-                    fontSize: 17
+                    fontSize: 16
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -177,18 +206,18 @@ class _ClientsPageState extends State<ClientsPage> {
                 child: Text(
                   "${record[1]} ",
                   style: TextStyle(
-                      fontSize: 17
+                      fontSize: 16
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
 
               ),Container(
-                width: 62,
+                width: 55,
                 height: 33,
                 child: Text(
                   "${record[6]}",
                   style: TextStyle(
-                      fontSize: 18
+                      fontSize: 16
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -201,7 +230,7 @@ class _ClientsPageState extends State<ClientsPage> {
                   child: ElevatedButton(
                     onPressed: (){
                       setState(() {
-                          _showFormDialog(context,record[0]);
+                          // _showFormDialog(context,record[0]);
                       });
                     },
                     child: Icon(Icons.arrow_back_ios),
@@ -216,50 +245,54 @@ class _ClientsPageState extends State<ClientsPage> {
 }
 
 
-void _showFormDialog(BuildContext context,String name) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(name,softWrap: false,),
-        content: MyForm(), // Your form widget
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              // Close the dialog
-              Navigator.of(context).pop();
-            },
-            child: Text('Close'),
-          ),
-        ],
-      );
-    },
-  );
-}
-class MyForm extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            children: [
-              Text("Name:"),
-              SizedBox(width: 20,),
-            ],
-          ),
-          TextFormField(
-            decoration: InputDecoration(labelText: 'Email'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Handle form submission here
-            },
-            child: Text('Submit'),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// void _showFormDialog(BuildContext context,String name) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: Text(name,softWrap: false,),
+//         content: Container(child: Text("g"),), // Your form widget
+//         actions: <Widget>[
+//           TextButton(
+//             onPressed: () {
+//               // Close the dialog
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('Close'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
+// class MyForm extends StatelessWidget {
+//   @override
+//   Widget s(){
+//     return Form(
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: <Widget>[
+//           Row(
+//             children: [
+//               Text("Name:"),
+//               SizedBox(width: 20,),
+//             ],
+//           ),
+//           TextFormField(
+//             decoration: InputDecoration(labelText: 'Email'),
+//           ),
+//           ElevatedButton(
+//             onPressed: () {
+//               // Handle form submission here
+//             },
+//             child: Text('Submit'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return s;
+//   }
+// }
